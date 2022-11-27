@@ -22,7 +22,7 @@ class TaskService(
         return taskRepository.selectAllTasks()
     }
 
-    override fun findTaskById(uuid: UUID): Optional<Task> {
-        return taskRepository.selectTaskById(uuid)
+    override fun findTaskById(taskId: UUID): Optional<Task> {
+        return taskRepository.selectTaskById(taskId)
     }
 }

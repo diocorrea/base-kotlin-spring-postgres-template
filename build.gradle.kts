@@ -67,7 +67,7 @@ jooq {
 
     configurations {
         create("main") { // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation.set(true) // default (can be omitted)
+            generateSchemaSourceOnCompilation.set(false) // default (can be omitted)
 
             jooqConfiguration.apply {
                 logging = Logging.ERROR
@@ -85,16 +85,21 @@ jooq {
                     }
                     target.apply {
                         packageName = "com.diocorrea.infrastructure.adapters.db.generated"
-                        directory = "src/main/java/com/diocorrea/infrastructure/adapters/db/generated" // default (can be omitted)
+                        directory =
+                            "src/main/java/com/diocorrea/infrastructure/adapters/db/generated" // default (can be omitted)
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }
             }
         }
+
     }
+
 }
 tasks.named("generateJooq").configure {
     onlyIf {
         project.hasProperty("generateJooq")
     }
+
 }
+//tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") { allInputsDeclared.set(true) }
