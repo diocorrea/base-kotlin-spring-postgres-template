@@ -9,7 +9,7 @@ import java.util.UUID
 
 class TaskService(
     private val taskValidationService: TaskValidationService,
-    private val taskRepository: TaskRepository,
+    private val taskRepository: TaskRepository
 ) :
     TaskSearchUseCase, TaskStoreUseCase {
 

@@ -18,6 +18,7 @@ import java.util.UUID
 
 class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
 
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
     @LocalServerPort
     lateinit var port: Integer
 
@@ -36,10 +37,8 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
         )
     }
 
-
     @Test
     fun `should store task correctly post endpoint`() {
-
         val taskInput = TaskInput(name = "smart.name.super")
 
         val headers = HttpHeaders()
@@ -74,7 +73,7 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
             body!!.uuid
         )
 
-        assertEquals(insertedTask,selectedTask)
+        assertEquals(insertedTask, selectedTask)
     }
 
 //    @Test

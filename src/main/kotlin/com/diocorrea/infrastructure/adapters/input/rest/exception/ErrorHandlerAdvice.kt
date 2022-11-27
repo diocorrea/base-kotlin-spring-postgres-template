@@ -16,7 +16,7 @@ class ErrorHandlerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     fun onConstraintValidationException(
-        exception: TaskValidationException,
+        exception: TaskValidationException
     ): ResponseEntity<ErrorMessage> {
         return ResponseEntity.badRequest().body(ErrorMessage(exception.message!!))
     }

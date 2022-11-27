@@ -5,7 +5,7 @@ import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 import com.diocorrea.infrastructure.adapters.input.rest.mapper.TaskMapper.Companion.toTask
 import com.diocorrea.infrastructure.adapters.input.rest.mapper.TaskMapper.Companion.toTaskOutput
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest

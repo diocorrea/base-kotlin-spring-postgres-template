@@ -92,14 +92,11 @@ jooq {
                 }
             }
         }
-
     }
-
 }
 tasks.named("generateJooq").configure {
     onlyIf {
         project.hasProperty("generateJooq")
     }
-
 }
-//tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") { allInputsDeclared.set(true) }
+// tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") { allInputsDeclared.set(true) }

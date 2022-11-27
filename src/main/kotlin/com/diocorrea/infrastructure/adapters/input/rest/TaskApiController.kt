@@ -21,7 +21,7 @@ import java.util.UUID
 @RequestMapping("/task")
 class TaskApiController(
     val taskSearchUseCase: TaskSearchUseCase,
-    val taskStoreUseCase: TaskStoreUseCase,
+    val taskStoreUseCase: TaskStoreUseCase
 ) {
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
@@ -39,6 +39,5 @@ class TaskApiController(
     fun storeTask(@RequestBody taskInput: TaskInput): ResponseEntity<TaskOutput> {
         val storedTask = taskStoreUseCase.storeTask(toTask(taskInput = taskInput))
         return ResponseEntity.ok().body(toTaskOutput(storedTask))
-
     }
 }
