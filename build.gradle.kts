@@ -14,6 +14,7 @@ plugins {
     // kotlin
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
+    jacoco
 }
 
 group = "com.diocorrea"
@@ -94,9 +95,49 @@ jooq {
         }
     }
 }
-tasks.named("generateJooq").configure {
-    onlyIf {
-        project.hasProperty("generateJooq")
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+    configure<JacocoTaskExtension> {
+        includes = listOf("com.diocorrea.*")
+        excludes = listOf("com.diocorrea.infrastructure.adapters.db.*")
+        excludeClassLoaders = listOf("com.diocorrea.infrastructure.adapters.db.*")
     }
 }
-// tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") { allInputsDeclared.set(true) }
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+}
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.9".toBigDecimal()
+            }
+            isEnabled = true
+            element = "CLASS"
+            includes = listOf("com.diocorrea.*")
+
+            excludes = listOf("com.diocorrea.infrastructure.adapters.db.*")
+        }
+
+        rule {
+            isEnabled = true
+            element = "CLASS"
+            includes = listOf("com.diocorrea.*")
+            excludes = listOf("*.generated.*")
+
+            limit {
+                counter = "LINE"
+                value = "TOTALCOUNT"
+                maximum = "0.3".toBigDecimal()
+            }
+        }
+    }
+}

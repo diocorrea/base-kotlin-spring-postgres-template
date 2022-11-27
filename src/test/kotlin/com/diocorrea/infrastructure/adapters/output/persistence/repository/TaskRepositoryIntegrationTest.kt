@@ -3,9 +3,6 @@ package com.diocorrea.infrastructure.adapters.output.persistence.repository
 import com.diocorrea.AbstractIntegrationTest
 import com.diocorrea.application.ports.ouput.TaskRepository
 import com.diocorrea.domain.model.Task
-import com.diocorrea.infrastructure.adapters.db.generated.Tables
-import org.jooq.DSLContext
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -17,9 +14,6 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
 
     @Autowired
     lateinit var taskRepository: TaskRepository
-
-    @Autowired
-    lateinit var dsl: DSLContext
 
     @Test
     fun `test simple select`() {
@@ -69,10 +63,5 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
         val task2 = taskRepository.create(task)
 
         assertEquals(task.uuid, task2.uuid)
-    }
-
-    @AfterEach
-    fun cleanUpDb() {
-        dsl.deleteFrom(Tables.TASK).execute()
     }
 }

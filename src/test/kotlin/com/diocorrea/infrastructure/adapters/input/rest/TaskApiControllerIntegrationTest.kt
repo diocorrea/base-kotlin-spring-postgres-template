@@ -2,6 +2,7 @@ package com.diocorrea.infrastructure.adapters.input.rest
 
 import com.diocorrea.AbstractIntegrationTest
 import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
+import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskListOutput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -76,99 +77,32 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
         assertEquals(insertedTask, selectedTask)
     }
 
-//    @Test
-//    fun `should return the same task if tried to insert it twice`() {
-//        val parameters = LinkedMultiValueMap<String, Any>()
-//        parameters.add("image", smallImage)
-//        parameters.add("height", 10)
-//        parameters.add("width", 100)
-//
-//        val headers = HttpHeaders()
-//        headers.contentType = MediaType.MULTIPART_FORM_DATA
-//        val entity = HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers)
-//
-//        val response1 =
-//            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, Task::class.java)
-//        val response2 = restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, Task::class.java)
-//
-//        assertEquals(HttpStatus.OK, response1.statusCode)
-//        assertNotNull(response1.body)
-//        assertEquals(HttpStatus.OK, response2.statusCode)
-//        assertNotNull(response2.body)
-//
-//        assertEquals(response2.body, response1.body)
-//    }
-//
-//    @Test
-//    fun `should return 400 if no image is provided`() {
-//        val parameters = LinkedMultiValueMap<String, Any>()
-//        parameters.add("height", 10)
-//        parameters.add("width", 100)
-//
-//        val headers = HttpHeaders()
-//        headers.contentType = MediaType.MULTIPART_FORM_DATA
-//        val entity = HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers)
-//
-//        val response =
-//            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, Task::class.java)
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
-//    }
-//
-//    @Test
-//    fun `should return 400 if height is over 2160`() {
-//        val parameters = LinkedMultiValueMap<String, Any>()
-//        parameters.add("image", smallImage)
-//        parameters.add("height", 10)
-//        parameters.add("width", 2161)
-//
-//        val headers = HttpHeaders()
-//        headers.contentType = MediaType.MULTIPART_FORM_DATA
-//        val entity = HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers)
-//
-//        val response =
-//            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, Task::class.java)
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
-//    }
-//
-//    @Test
-//    fun `should return 400 if width is over 3840`() {
-//        val parameters = LinkedMultiValueMap<String, Any>()
-//        parameters.add("image", smallImage)
-//        parameters.add("height", 3841)
-//        parameters.add("width", 30)
-//
-//        val headers = HttpHeaders()
-//        headers.contentType = MediaType.MULTIPART_FORM_DATA
-//        val entity = HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers)
-//
-//        val response =
-//            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, Task::class.java)
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
-//    }
-//
-//    @Test
-//    fun `should get all All tasks`() {
-//        val parameters = LinkedMultiValueMap<String, Any>()
-//        parameters.add("image", smallImage)
-//        parameters.add("height", 10)
-//        parameters.add("width", 100)
-//
-//        val headers = HttpHeaders()
-//        headers.contentType = MediaType.MULTIPART_FORM_DATA
-//        restTemplate.postForEntity(/* url = */
-//            "http://localhost:$port/task",
-//            HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers),
-//            Task::class.java
-//        )
-//
-//        val response =
-//            restTemplate.getForEntity(/* url = */ "http://localhost:$port/taskList", TaskList::class.java)
-//
-//        assertEquals(HttpStatus.OK, response.statusCode)
-//        assertNotNull(response.body)
-//        assertEquals(1, response.body!!.tasks.size)
-//    }
+    @Test
+    fun `should get all All tasks`() {
+        val taskInputs = listOf(
+            TaskInput(name = "smart.name.super"),
+            TaskInput(name = "smart.name.super.1"),
+            TaskInput(name = "smart.name.super.2")
+        )
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+
+        taskInputs.forEach {
+            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", it, TaskOutput::class.java)
+        }
+
+        val response =
+            restTemplate.getForEntity(/* url = */ "http://localhost:$port/task", TaskListOutput::class.java)
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertNotNull(response.body)
+        assertEquals(3, response.body!!.tasks.size)
+
+        val stringList = response.body!!.tasks.map { it.name }
+
+        taskInputs.map { it.name }.forEach {
+            assertTrue(stringList.contains(it))
+        }
+    }
 }
