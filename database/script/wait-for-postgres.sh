@@ -1,4 +1,5 @@
 #!/bin/sh
+# wait-for-postgres.sh
 set -e
 
 until liquibase --defaults-file=/script/liquibase.properties --search-path=/liquibase/changelog status --changelog-file=db.changelog-main.sql; do
