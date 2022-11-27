@@ -5,7 +5,7 @@ import com.diocorrea.domain.exception.TaskValidationExceptionMessages
 import com.diocorrea.domain.model.Task
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.util.*
+import java.util.UUID
 
 internal class TaskValidationServiceTest {
 

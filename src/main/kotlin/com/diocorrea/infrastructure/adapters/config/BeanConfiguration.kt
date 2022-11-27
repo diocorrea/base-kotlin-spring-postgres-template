@@ -6,6 +6,7 @@ import com.diocorrea.application.ports.ouput.TaskRepository
 import com.diocorrea.domain.service.TaskService
 import com.diocorrea.domain.service.TaskValidationService
 import com.diocorrea.infrastructure.adapters.output.persistence.repository.TaskRepositoryDao
+import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -28,7 +29,7 @@ class BeanConfiguration {
     }
 
     @Bean
-    fun taskRepository(): TaskRepository {
-        return TaskRepositoryDao()
+    fun taskRepository(dslContext: DSLContext): TaskRepository {
+        return TaskRepositoryDao(dslContext)
     }
 }

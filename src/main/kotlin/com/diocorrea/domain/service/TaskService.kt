@@ -11,7 +11,7 @@ class TaskService(private val taskValidationService: TaskValidationService, priv
 
     override fun storeTask(task: Task?): Task {
         taskValidationService.validate(task)
-        return taskRepository.store(task!!)
+        return taskRepository.create(task!!)
     }
 
     override fun findAllTasks(): TaskListOutput {

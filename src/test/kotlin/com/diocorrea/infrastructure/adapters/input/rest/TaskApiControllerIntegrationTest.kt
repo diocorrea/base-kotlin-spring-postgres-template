@@ -37,7 +37,6 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
         )
     }
 
-
     fun `should store task correctly post endpoint`() {
         val parameters = LinkedMultiValueMap<String, Any>()
         parameters.add("name", "Dio")

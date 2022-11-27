@@ -3,15 +3,15 @@ import org.jooq.meta.jaxb.Logging
 
 
 plugins {
-   //jooq generator
+    // jooq generator
     id("java")
     id("nu.studer.jooq") version "8.0"
-    //spring
+    // spring
     id("org.springframework.boot") version "2.7.5"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
-    //sonar
+    // sonar
     id("org.sonarqube") version "3.5.0.2730"
-    //kotlin
+    // kotlin
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
 }
@@ -42,7 +42,6 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.2")
 
     jooqGenerator("org.postgresql:postgresql:42.3.5")
-
 }
 
 dependencyManagement {
@@ -62,14 +61,13 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-
 jooq {
-    version.set("3.17.5")  // default (can be omitted)
-    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
+    version.set("3.17.5") // default (can be omitted)
+    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS) // default (can be omitted)
 
     configurations {
-        create("main") {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation.set(true)  // default (can be omitted)
+        create("main") { // name of the jOOQ configuration
+            generateSchemaSourceOnCompilation.set(true) // default (can be omitted)
 
             jooqConfiguration.apply {
                 logging = Logging.WARN
@@ -87,7 +85,7 @@ jooq {
                     }
                     target.apply {
                         packageName = "com.diocorrea.infrastructure.adapters.db.generated"
-                        directory = "src/main/java/com/diocorrea/infrastructure/adapters/db/generated"  // default (can be omitted)
+                        directory = "src/main/java/com/diocorrea/infrastructure/adapters/db/generated" // default (can be omitted)
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }
@@ -96,7 +94,7 @@ jooq {
     }
 }
 tasks.named("generateJooq").configure {
-        onlyIf{
-            project.hasProperty("generateJooq")
-        }
+    onlyIf {
+        project.hasProperty("generateJooq")
+    }
 }

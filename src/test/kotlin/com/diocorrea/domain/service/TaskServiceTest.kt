@@ -32,12 +32,12 @@ internal class TaskServiceTest {
         val task = Task("input Task")
         val returnTask = Task("return Task")
         every { mockTaskValidationService.validate(task) }.answers { true }
-        every { mockTaskRepository.store(task) }.answers { returnTask }
+        every { mockTaskRepository.create(task) }.answers { returnTask }
 
         Assertions.assertEquals(returnTask, useCaseUnderTest.storeTask(task))
 
         verify(exactly = 1) { mockTaskValidationService.validate(task) }
-        verify(exactly = 1) { mockTaskRepository.store(task) }
+        verify(exactly = 1) { mockTaskRepository.create(task) }
     }
 
     @Test
@@ -48,6 +48,6 @@ internal class TaskServiceTest {
         assertThrows<TaskValidationException>(TaskValidationExceptionMessages.NAME_TOO_LONG_TASK.getMessage()) { useCaseUnderTest.storeTask(task) }
 
         verify(exactly = 1) { mockTaskValidationService.validate(task) }
-        verify(exactly = 0) { mockTaskRepository.store(task) }
+        verify(exactly = 0) { mockTaskRepository.create(task) }
     }
 }

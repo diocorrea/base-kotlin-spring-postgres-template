@@ -8,7 +8,7 @@ import com.diocorrea.infrastructure.adapters.db.generated.Keys;
 import com.diocorrea.infrastructure.adapters.db.generated.Public;
 import com.diocorrea.infrastructure.adapters.db.generated.tables.records.TaskRecord;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -62,7 +62,7 @@ public class Task extends TableImpl<TaskRecord> {
     /**
      * The column <code>public.task.created</code>.
      */
-    public final TableField<TaskRecord, LocalDateTime> CREATED = createField(DSL.name("created"), SQLDataType.LOCALDATETIME(6), this, "");
+    public final TableField<TaskRecord, OffsetDateTime> CREATED = createField(DSL.name("created"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "");
 
     private Task(Name alias, Table<TaskRecord> aliased) {
         this(alias, aliased, null);
@@ -143,7 +143,7 @@ public class Task extends TableImpl<TaskRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<UUID, String, LocalDateTime> fieldsRow() {
+    public Row3<UUID, String, OffsetDateTime> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }
