@@ -10,3 +10,15 @@ services:
     restart: unless-stopped
     ports:
       - "5431:5432"
+  migration:
+    image: liquibase/liquibase
+    stdin_open: true
+    command: [ "sh", "/script/wait-for-postgres.sh",
+               "sh", "/script/liquibase-migrate.sh"]
+    volumes:
+      - ./src/main/resources/db/changelog:/liquibase/changelog
+      - ./database/script:/script
+    links:
+      - db
+    depends_on:
+      - db

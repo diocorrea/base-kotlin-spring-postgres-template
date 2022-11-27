@@ -1,4 +1,4 @@
-create table public.task (
+create table public.sampleTable (
   id UUID primary key,
   name varchar(50),
   created timestamp
