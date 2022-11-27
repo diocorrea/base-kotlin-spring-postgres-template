@@ -1,7 +1,10 @@
 package com.diocorrea.application.ports.input
 
-import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskListOutput
+import com.diocorrea.domain.model.Task
+import java.util.Optional
+import java.util.UUID
 
 interface TaskSearchUseCase {
-    fun findAllTasks(): TaskListOutput
+    fun findAllTasks(): List<Task>
+    fun findTaskById(taskId: UUID): Optional<Task>
 }

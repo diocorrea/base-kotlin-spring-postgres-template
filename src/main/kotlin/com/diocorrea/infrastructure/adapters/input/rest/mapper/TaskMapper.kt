@@ -6,15 +6,18 @@ import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 
 class TaskMapper {
 
-    fun toTask(taskInput: TaskInput): Task? {
-        if (taskInput.name == null) return null
-        return Task(taskInput.name)
-    }
+    companion object {
 
-    fun toTaskOutput(task: Task): TaskOutput {
-        if (task.name == null || task.created == null || task.uuid == null) {
-            throw IllegalArgumentException("Task must be complete to be converted to output")
+        fun toTask(taskInput: TaskInput): Task? {
+            if (taskInput.name == null) return null
+            return Task(taskInput.name)
         }
-        return TaskOutput(name = task.name, uuid = task.uuid, created = task.created)
+
+        fun toTaskOutput(task: Task): TaskOutput {
+            if (task.name == null || task.created == null || task.uuid == null) {
+                throw IllegalArgumentException("Task must be complete to be converted to output")
+            }
+            return TaskOutput(name = task.name, uuid = task.uuid, created = task.created)
+        }
     }
 }

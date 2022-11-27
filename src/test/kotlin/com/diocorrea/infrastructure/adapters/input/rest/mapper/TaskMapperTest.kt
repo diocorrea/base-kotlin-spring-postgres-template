@@ -3,6 +3,8 @@ package com.diocorrea.infrastructure.adapters.input.rest.mapper
 import com.diocorrea.domain.model.Task
 import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
+import com.diocorrea.infrastructure.adapters.input.rest.mapper.TaskMapper.Companion.toTask
+import com.diocorrea.infrastructure.adapters.input.rest.mapper.TaskMapper.Companion.toTaskOutput
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -20,7 +22,7 @@ internal class TaskMapperTest {
         val taskInput = TaskInput("dio")
         val task = Task("dio")
 
-        assertEquals(task, TaskMapper().toTask(taskInput))
+        assertEquals(task, toTask(taskInput))
     }
 
     @Test
@@ -32,7 +34,7 @@ internal class TaskMapperTest {
 
         val taskOutput = TaskOutput(name = name, uuid = randomUUID, created = zonedDateTime)
 
-        assertEquals(taskOutput, TaskMapper().toTaskOutput(task))
+        assertEquals(taskOutput, toTaskOutput(task))
     }
 
     @ParameterizedTest
@@ -45,7 +47,7 @@ internal class TaskMapperTest {
         val task = Task(name = name, uuid = randomUUID, created = zonedDateTime)
 
         assertThrows<IllegalArgumentException> {
-            TaskMapper().toTaskOutput(task)
+            toTaskOutput(task)
         }
     }
 

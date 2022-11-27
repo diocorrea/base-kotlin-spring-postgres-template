@@ -16,7 +16,7 @@ class TaskValidationService {
         if (task.name.length < 5) {
             throw TaskValidationException(TaskValidationExceptionMessages.NAME_TOO_SHORT_TASK)
         }
-        if (task.name.length > 15) {
+        if (task.name.length > 30) {
             throw TaskValidationException(TaskValidationExceptionMessages.NAME_TOO_LONG_TASK)
         }
         return true

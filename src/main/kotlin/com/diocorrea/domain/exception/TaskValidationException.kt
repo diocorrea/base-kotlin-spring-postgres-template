@@ -13,7 +13,7 @@ enum class TaskValidationExceptionMessages {
         override fun getMessage() = "Task has a name with less than 5 characters"
     },
     NAME_TOO_LONG_TASK {
-        override fun getMessage() = "Task has a name with more than 15 characters"
+        override fun getMessage() = "Task has a name with more than 30 characters"
     };
 
     abstract fun getMessage(): String

@@ -4,9 +4,13 @@ import com.diocorrea.application.ports.input.TaskSearchUseCase
 import com.diocorrea.application.ports.input.TaskStoreUseCase
 import com.diocorrea.application.ports.ouput.TaskRepository
 import com.diocorrea.domain.model.Task
-import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskListOutput
+import java.util.Optional
+import java.util.UUID
 
-class TaskService(private val taskValidationService: TaskValidationService, private val taskRepository: TaskRepository) :
+class TaskService(
+    private val taskValidationService: TaskValidationService,
+    private val taskRepository: TaskRepository,
+) :
     TaskSearchUseCase, TaskStoreUseCase {
 
     override fun storeTask(task: Task?): Task {
@@ -14,7 +18,11 @@ class TaskService(private val taskValidationService: TaskValidationService, priv
         return taskRepository.create(task!!)
     }
 
-    override fun findAllTasks(): TaskListOutput {
-        TODO("Not yet implemented")
+    override fun findAllTasks(): List<Task> {
+        return taskRepository.selectAllTasks()
+    }
+
+    override fun findTaskById(uuid: UUID): Optional<Task> {
+        return taskRepository.selectTaskById(uuid)
     }
 }

@@ -1,6 +1,7 @@
 package com.diocorrea.infrastructure.adapters.input.rest
 
 import com.diocorrea.AbstractIntegrationTest
+import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -9,11 +10,9 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
-import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.util.LinkedMultiValueMap
 import java.time.ZonedDateTime
 import java.util.UUID
 
@@ -37,24 +36,45 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
         )
     }
 
+
     @Test
     fun `should store task correctly post endpoint`() {
-        val parameters = LinkedMultiValueMap<String, Any>()
-        parameters.add("name", "Dio")
+
+        val taskInput = TaskInput(name = "smart.name.super")
 
         val headers = HttpHeaders()
-        headers.contentType = MediaType.MULTIPART_FORM_DATA
-        val entity = HttpEntity<LinkedMultiValueMap<String, Any>>(parameters, headers)
+        headers.contentType = MediaType.APPLICATION_JSON
 
         val response =
-            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", entity, TaskOutput::class.java)
+            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", taskInput, TaskOutput::class.java)
 
         assertEquals(HttpStatus.OK, response.statusCode)
         assertNotNull(response.body)
 
         assertTrue(ZonedDateTime.now().isAfter(response.body!!.created))
         assertNotNull(response.body!!.uuid)
-        assertEquals("Dio", response.body!!.name)
+        assertEquals("smart.name.super", response.body!!.name)
+    }
+
+    @Test
+    fun `should return task after inserting it`() {
+        val taskInput = TaskInput(name = "smart.name.super")
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+
+        val insertedTask =
+            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", taskInput, TaskOutput::class.java)
+        val body = insertedTask.body
+        assertNotNull(body)
+
+        val selectedTask = restTemplate.getForEntity(
+            "http://localhost:$port/task/{taskid}",
+            TaskOutput::class.java,
+            body!!.uuid
+        )
+
+        assertEquals(insertedTask,selectedTask)
     }
 
 //    @Test
