@@ -1,7 +1,9 @@
 package com.diocorrea.infrastructure.adapters.input.rest
 
 import com.diocorrea.AbstractIntegrationTest
+import com.diocorrea.domain.exception.TaskValidationExceptionMessages
 import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
+import com.diocorrea.infrastructure.adapters.input.rest.data.response.ErrorMessage
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskListOutput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -36,6 +38,22 @@ class TaskApiControllerIntegrationTest : AbstractIntegrationTest() {
                 /* ...urlVariables = */ UUID.randomUUID()
             ).statusCode
         )
+    }
+
+    @Test
+    fun `should return 400 if the name is too small`() {
+        val taskInput = TaskInput(name = "123")
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_JSON
+
+        val response =
+            restTemplate.postForEntity(/* url = */ "http://localhost:$port/task", taskInput, ErrorMessage::class.java)
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertNotNull(response.body)
+
+        assertEquals(TaskValidationExceptionMessages.NAME_TOO_SHORT_TASK.getMessage(), response.body!!.message)
     }
 
     @Test
