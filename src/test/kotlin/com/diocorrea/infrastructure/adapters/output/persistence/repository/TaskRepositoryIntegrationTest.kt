@@ -33,7 +33,6 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
         assertEquals(2, taskRepository.selectAllTasks().size)
     }
 
-
     @Test
     fun `test select by id`() {
         val task = taskRepository.create(
@@ -44,7 +43,8 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
 
         assertTrue(selectedTaskById.isPresent)
         assertEquals(
-            task.toString(), selectedTaskById.get().toString()
+            task.toString(),
+            selectedTaskById.get().toString()
         )
     }
 
@@ -57,10 +57,8 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
         Assertions.assertNotNull(inserted.uuid)
         Assertions.assertNotNull(inserted.created)
 
-
         assertEquals(task.name, inserted.name)
         assertTrue(ZonedDateTime.now().isAfter(inserted.created))
-
     }
 
     @Test

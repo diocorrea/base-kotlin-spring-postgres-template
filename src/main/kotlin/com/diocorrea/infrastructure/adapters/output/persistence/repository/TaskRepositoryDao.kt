@@ -36,5 +36,4 @@ class TaskRepositoryDao(private val dsl: DSLContext) : TaskRepository {
         dsl.insertInto(TASK).set(taskRecord).execute()
         return selectTaskById(taskRecord.id).orElseThrow()
     }
-
 }
