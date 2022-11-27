@@ -1,16 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jooq.codegen.GenerationTool
-import org.jooq.meta.jaxb.Generate
-import org.jooq.meta.jaxb.Generator
-import org.jooq.meta.jaxb.Jdbc
-import org.jooq.meta.jaxb.Target
-import org.jooq.meta.jaxb.Configuration
+import org.jooq.meta.jaxb.Logging
 
 
 plugins {
+   //jooq generator
+    id("java")
+    id("nu.studer.jooq") version "8.0"
+    //spring
     id("org.springframework.boot") version "2.7.5"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
+    //sonar
     id("org.sonarqube") version "3.5.0.2730"
+    //kotlin
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
 }
@@ -28,8 +29,6 @@ extra["testcontainersVersion"] = "1.17.6"
 dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-jooq")
-    implementation("org.jooq:jooq")
-    implementation("org.jooq:jooq-codegen")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -41,6 +40,9 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:postgresql")
     testImplementation("io.mockk:mockk:1.13.2")
+
+    jooqGenerator("org.postgresql:postgresql:42.3.5")
+
 }
 
 dependencyManagement {
@@ -60,41 +62,41 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jooq:jooq-codegen:3.16.6")
-        classpath("org.postgresql:postgresql:42.3.5")
+
+jooq {
+    version.set("3.17.5")  // default (can be omitted)
+    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
+
+    configurations {
+        create("main") {  // name of the jOOQ configuration
+            generateSchemaSourceOnCompilation.set(true)  // default (can be omitted)
+
+            jooqConfiguration.apply {
+                logging = Logging.WARN
+                jdbc.apply {
+                    driver = "org.postgresql.Driver"
+                    url = "jdbc:postgresql://localhost:5431/postgres"
+                    user = "user"
+                    password = "pass"
+                }
+                generator.apply {
+                    name = "org.jooq.codegen.DefaultGenerator"
+                    database.apply {
+                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        inputSchema = "public"
+                    }
+                    target.apply {
+                        packageName = "com.diocorrea.infrastructure.adapters.db.generated"
+                        directory = "src/main/java/com/diocorrea/infrastructure/adapters/db/generated"  // default (can be omitted)
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
     }
 }
-
-tasks.create("generate") {
-    onlyIf {
-        project.hasProperty("jooqGenerate")
-    }
-    doLast {
-        GenerationTool.generate(
-            Configuration()
-                .withJdbc(
-                    Jdbc()
-                        .withDriver("org.postgresql.Driver")
-                        .withUrl("jdbc:postgresql://localhost:5431/postgres")
-                        .withUser("user")
-                        .withPassword("pass")
-                )
-                .withGenerator(
-                    Generator()
-                        .withDatabase(org.jooq.meta.jaxb.Database().withInputSchema("public"))
-                        .withGenerate(Generate())
-                        .withTarget(
-                            Target()
-                                .withPackageName("com.diocorrea.infrastructure.adapters.db.generated")
-                                .withDirectory("src/main/kotlin/com/diocorrea/infrastructure/adapters/db/generated")
-                        )
-                )
-        )
-    }
+tasks.named("generateJooq").configure {
+        onlyIf{
+            project.hasProperty("generateJooq")
+        }
 }
