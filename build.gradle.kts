@@ -102,16 +102,26 @@ tasks.test {
         includes = listOf("com.diocorrea.*")
     }
 }
+
 tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
-}
-tasks.jacocoTestReport {
+    dependsOn(tasks.test)
     reports {
         xml.required.set(true)
         csv.required.set(true)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
+
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude("**/generated/**")
+                }
+            }
+        )
+    )
 }
+
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
@@ -121,8 +131,6 @@ tasks.jacocoTestCoverageVerification {
             isEnabled = true
             element = "CLASS"
             includes = listOf("com.diocorrea.*")
-
-            excludes = listOf("com.diocorrea.infrastructure.adapters.db.*")
         }
 
         rule {

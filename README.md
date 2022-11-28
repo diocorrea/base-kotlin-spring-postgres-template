@@ -1,7 +1,7 @@
 # Base template using Kotlin, Spring and Hexagonal architecture
 
 [![Run Gradle on PRs](https://github.com/diocorrea/base-kotlin-spring-postgres-template/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/diocorrea/base-kotlin-spring-postgres-template/actions/workflows/ci.yml) 
-![Coverage](.github/badges/jacoco.svg)
+[![Coverage](.github/badges/jacoco.svg)](https://github.com/diocorrea/base-kotlin-spring-postgres-template/actions/workflows/ci.yml)
 ## Hexagonal Architecture
 
 There are different ways to look for Hexagonal Architecture, if you search around you find multiple implementations and
