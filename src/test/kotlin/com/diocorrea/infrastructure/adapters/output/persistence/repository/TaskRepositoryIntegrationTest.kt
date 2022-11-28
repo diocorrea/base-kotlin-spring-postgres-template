@@ -18,10 +18,10 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
     @Test
     fun `test simple select`() {
         taskRepository.create(
-            Task("Dio")
+            Task("Dio123")
         )
         taskRepository.create(
-            Task("Dio2")
+            Task("Dio2123")
         )
 
         assertEquals(2, taskRepository.selectAllTasks().size)
@@ -30,7 +30,7 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
     @Test
     fun `test select by id`() {
         val task = taskRepository.create(
-            Task("Dio")
+            Task("Dio123")
         )
 
         val selectedTaskById = taskRepository.selectTaskById(task.uuid!!)
@@ -44,7 +44,7 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
 
     @Test
     fun `save task into database`() {
-        val task = Task("Dio")
+        val task = Task("Dio123")
 
         val inserted = taskRepository.create(task)
 
@@ -58,7 +58,7 @@ class TaskRepositoryIntegrationTest : AbstractIntegrationTest() {
     @Test
     fun `should return the same task if inserting it twice`() {
         val task = taskRepository.create(
-            Task("Dio")
+            Task("Dio123")
         )
         val task2 = taskRepository.create(task)
 
