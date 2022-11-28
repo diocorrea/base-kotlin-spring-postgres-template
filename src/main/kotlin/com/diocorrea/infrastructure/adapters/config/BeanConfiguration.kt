@@ -10,16 +10,23 @@ import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+@Suppress("unused")
 @Configuration
 class BeanConfiguration {
 
     @Bean
-    fun taskServiceSearchUseCase(taskValidationService: TaskValidationService, taskRepository: TaskRepository): TaskSearchUseCase {
+    fun taskServiceSearchUseCase(
+        taskValidationService: TaskValidationService,
+        taskRepository: TaskRepository
+    ): TaskSearchUseCase {
         return TaskService(taskValidationService = taskValidationService, taskRepository = taskRepository)
     }
 
     @Bean
-    fun taskStoreUseCase(taskValidationService: TaskValidationService, taskRepository: TaskRepository): TaskStoreUseCase {
+    fun taskStoreUseCase(
+        taskValidationService: TaskValidationService,
+        taskRepository: TaskRepository
+    ): TaskStoreUseCase {
         return TaskService(taskValidationService = taskValidationService, taskRepository = taskRepository)
     }
 

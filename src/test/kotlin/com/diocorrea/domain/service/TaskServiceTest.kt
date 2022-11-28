@@ -45,9 +45,17 @@ internal class TaskServiceTest {
     @Test
     fun `shouldn't call repository if validation fails`() {
         val task = Task("input Task")
-        every { mockTaskValidationService.validate(task) }.throws(TaskValidationException(TaskValidationExceptionMessages.NAME_TOO_LONG_TASK))
+        every { mockTaskValidationService.validate(task) }.throws(
+            TaskValidationException(
+                TaskValidationExceptionMessages.NAME_TOO_LONG_TASK
+            )
+        )
 
-        assertThrows<TaskValidationException>(TaskValidationExceptionMessages.NAME_TOO_LONG_TASK.getMessage()) { useCaseUnderTest.storeTask(task) }
+        assertThrows<TaskValidationException>(TaskValidationExceptionMessages.NAME_TOO_LONG_TASK.getMessage()) {
+            useCaseUnderTest.storeTask(
+                task
+            )
+        }
 
         verify(exactly = 1) { mockTaskValidationService.validate(task) }
         verify(exactly = 0) { mockTaskRepository.create(task) }
