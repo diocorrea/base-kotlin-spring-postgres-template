@@ -100,8 +100,6 @@ tasks.test {
     finalizedBy(tasks.jacocoTestReport)
     configure<JacocoTaskExtension> {
         includes = listOf("com.diocorrea.*")
-        excludes = listOf("com.diocorrea.infrastructure.adapters.db.*")
-        excludeClassLoaders = listOf("com.diocorrea.infrastructure.adapters.db.*")
     }
 }
 tasks.jacocoTestReport {
@@ -131,7 +129,6 @@ tasks.jacocoTestCoverageVerification {
             isEnabled = true
             element = "CLASS"
             includes = listOf("com.diocorrea.*")
-            excludes = listOf("*.generated.*")
 
             limit {
                 counter = "LINE"
@@ -139,5 +136,14 @@ tasks.jacocoTestCoverageVerification {
                 maximum = "0.3".toBigDecimal()
             }
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.sources", "src/main/kotlin")
+        property("sonar.includes", "*.kt")
+        property("sonar.tests", "src/test/kotlin")
+        property("sonar.scm.disabled", "true")
     }
 }

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-internal class TaskServiceTest {
+class TaskServiceTest {
 
     lateinit var useCaseUnderTest: TaskService
 

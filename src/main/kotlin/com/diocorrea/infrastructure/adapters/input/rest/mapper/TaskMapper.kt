@@ -4,7 +4,7 @@ import com.diocorrea.domain.model.Task
 import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
 
-class TaskMapper {
+interface TaskMapper {
 
     companion object {
 
