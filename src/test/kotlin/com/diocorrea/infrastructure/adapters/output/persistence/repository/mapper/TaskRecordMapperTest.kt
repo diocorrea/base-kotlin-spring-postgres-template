@@ -20,16 +20,15 @@ internal class TaskRecordMapperTest {
 
         @JvmStatic
         fun taskRecordInputs() = Stream.of(
-            Arguments.of(UUID.randomUUID(), "test", defaultTime),
-            Arguments.of(null, "test", defaultTime),
-            Arguments.of(UUID.randomUUID(), null, defaultTime),
-            Arguments.of(UUID.randomUUID(), "test", null)
+            Arguments.of(null, "test123", defaultTime),
+            Arguments.of(UUID.randomUUID(), "test123", defaultTime),
+            Arguments.of(UUID.randomUUID(), "test123", null)
         )
     }
 
     @ParameterizedTest
     @MethodSource("taskRecordInputs")
-    fun `should convert Task to TaskRecord`(uuid: UUID?, name: String?, created: ZonedDateTime?) {
+    fun `should convert Task to TaskRecord`(uuid: UUID?, name: String, created: ZonedDateTime?) {
         val task = Task(uuid = uuid, name = name, created = created)
         val taskRecord = TaskRecord()
         taskRecord.id = uuid

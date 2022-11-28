@@ -8,14 +8,12 @@ import java.util.Optional
 import java.util.UUID
 
 class TaskService(
-    private val taskValidationService: TaskValidationService,
     private val taskRepository: TaskRepository
 ) :
     TaskSearchUseCase, TaskStoreUseCase {
 
-    override fun storeTask(task: Task?): Task {
-        taskValidationService.validate(task)
-        return taskRepository.create(task!!)
+    override fun storeTask(task: Task): Task {
+        return taskRepository.create(task)
     }
 
     override fun findAllTasks(): List<Task> {

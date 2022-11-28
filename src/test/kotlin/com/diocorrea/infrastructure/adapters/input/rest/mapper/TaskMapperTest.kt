@@ -19,8 +19,8 @@ internal class TaskMapperTest {
 
     @Test
     fun `should convert TaskInput into Task`() {
-        val taskInput = TaskInput("dio")
-        val task = Task("dio")
+        val taskInput = TaskInput("dio123")
+        val task = Task("dio123")
 
         assertEquals(task, toTask(taskInput))
     }
@@ -29,7 +29,7 @@ internal class TaskMapperTest {
     fun `should convert Task to TaskOutput`() {
         val randomUUID = UUID.randomUUID()
         val zonedDateTime = ZonedDateTime.now()
-        val name = "dio"
+        val name = "dio123"
         val task = Task(name = name, uuid = randomUUID, created = zonedDateTime)
 
         val taskOutput = TaskOutput(name = name, uuid = randomUUID, created = zonedDateTime)
@@ -40,7 +40,7 @@ internal class TaskMapperTest {
     @ParameterizedTest
     @MethodSource("multipleInputs")
     fun `should throw exception if any parameter is null`(
-        name: String?,
+        name: String,
         randomUUID: UUID?,
         zonedDateTime: ZonedDateTime?
     ) {
@@ -54,9 +54,8 @@ internal class TaskMapperTest {
     companion object {
         @JvmStatic
         fun multipleInputs() = Stream.of(
-            Arguments.of(null, UUID.randomUUID(), ZonedDateTime.now()),
-            Arguments.of("Dio", null, ZonedDateTime.now()),
-            Arguments.of("Dio", UUID.randomUUID(), null)
+            Arguments.of("Dio123", null, ZonedDateTime.now()),
+            Arguments.of("Dio123", UUID.randomUUID(), null)
         )
     }
 }
