@@ -1,4 +1,4 @@
-package com.diocorrea.domain.service
+package com.diocorrea.application.service
 
 import com.diocorrea.domain.exception.TaskValidationException
 import com.diocorrea.domain.exception.TaskValidationExceptionMessages

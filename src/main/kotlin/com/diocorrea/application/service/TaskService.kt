@@ -1,4 +1,4 @@
-package com.diocorrea.domain.service
+package com.diocorrea.application.service
 
 import com.diocorrea.application.ports.input.TaskSearchUseCase
 import com.diocorrea.application.ports.input.TaskStoreUseCase

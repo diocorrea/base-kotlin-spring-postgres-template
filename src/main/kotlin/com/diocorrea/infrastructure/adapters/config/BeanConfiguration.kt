@@ -3,8 +3,8 @@ package com.diocorrea.infrastructure.adapters.config
 import com.diocorrea.application.ports.input.TaskSearchUseCase
 import com.diocorrea.application.ports.input.TaskStoreUseCase
 import com.diocorrea.application.ports.ouput.TaskRepository
-import com.diocorrea.domain.service.TaskService
-import com.diocorrea.domain.service.TaskValidationService
+import com.diocorrea.application.service.TaskService
+import com.diocorrea.application.service.TaskValidationService
 import com.diocorrea.infrastructure.adapters.output.persistence.repository.TaskRepositoryDao
 import org.jooq.DSLContext
 import org.springframework.context.annotation.Bean
