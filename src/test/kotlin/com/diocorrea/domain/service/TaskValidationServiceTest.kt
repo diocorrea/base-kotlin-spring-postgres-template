@@ -1,5 +1,6 @@
 package com.diocorrea.domain.service
 
+import com.diocorrea.application.service.TaskValidationService
 import com.diocorrea.domain.exception.TaskValidationException
 import com.diocorrea.domain.exception.TaskValidationExceptionMessages
 import com.diocorrea.domain.model.Task
