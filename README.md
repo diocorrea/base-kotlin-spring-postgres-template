@@ -1,5 +1,8 @@
 # Base template using Kotlin, Spring and Hexagonal architecture
 
+![Main branch](https://github.com/diocorrea/base-kotlin-spring-postgres-template/.github/workflows/ci.yml/badge.svg?branch=main)
+
+
 ## Hexagonal Architecture
 
 There are different ways to look for Hexagonal Architecture, if you search around you find multiple implementations and
