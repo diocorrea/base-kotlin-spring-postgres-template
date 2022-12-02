@@ -3,9 +3,7 @@ package com.diocorrea.domain.exception
 class TaskValidationException(message: TaskValidationExceptionMessages) : RuntimeException(message.getMessage())
 
 enum class TaskValidationExceptionMessages {
-    NULL_TASK {
-        override fun getMessage() = "Task is null"
-    },
+
     NULL_NAME_TASK {
         override fun getMessage() = "Task has a null name"
     },

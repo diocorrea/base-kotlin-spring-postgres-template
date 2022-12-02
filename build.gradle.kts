@@ -115,7 +115,11 @@ tasks.jacocoTestReport {
         files(
             classDirectories.files.map {
                 fileTree(it) {
-                    exclude("**/generated/**")
+                    exclude(
+                        "**/generated/**",
+                        "**/Application.class",
+                        "**/ApplicationKt.class"
+                    )
                 }
             }
         )
