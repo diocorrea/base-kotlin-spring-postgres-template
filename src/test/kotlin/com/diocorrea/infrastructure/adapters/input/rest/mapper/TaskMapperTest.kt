@@ -1,5 +1,7 @@
 package com.diocorrea.infrastructure.adapters.input.rest.mapper
 
+import com.diocorrea.domain.exception.TaskValidationException
+import com.diocorrea.domain.exception.TaskValidationExceptionMessages
 import com.diocorrea.domain.model.Task
 import com.diocorrea.infrastructure.adapters.input.rest.data.request.TaskInput
 import com.diocorrea.infrastructure.adapters.input.rest.data.response.TaskOutput
@@ -23,6 +25,15 @@ internal class TaskMapperTest {
         val task = Task("dio123")
 
         assertEquals(task, toTask(taskInput))
+    }
+
+    @Test
+    fun `should thow exception if TaskInput has no name`() {
+        val taskInput = TaskInput(null)
+
+        assertThrows<TaskValidationException>(TaskValidationExceptionMessages.NULL_NAME_TASK.getMessage()) {
+            toTask(taskInput)
+        }
     }
 
     @Test

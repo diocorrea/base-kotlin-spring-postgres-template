@@ -12,13 +12,10 @@ interface TaskMapper {
 
         fun toTask(taskInput: TaskInput): Task {
             return Task(
-                if (taskInput.name != null) {
-                    taskInput.name!!
-                } else {
-                    throw TaskValidationException(
+                name = taskInput.name
+                    ?: throw TaskValidationException(
                         TaskValidationExceptionMessages.NULL_NAME_TASK
                     )
-                }
             )
         }
 
